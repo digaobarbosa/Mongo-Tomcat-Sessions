@@ -486,7 +486,9 @@ public class MongoManager implements Manager, Lifecycle {
       for (String host : hosts) {
         addrs.add(new ServerAddress(host, getPort()));
       }
-      mongo = new Mongo(addrs);
+        MongoOptions options = new MongoOptions();
+        options.connectionsPerHost=10;
+        mongo = new Mongo(addrs, options);
       db = mongo.getDB(getDatabase());
       if (slaveOk) {
         db.slaveOk();
